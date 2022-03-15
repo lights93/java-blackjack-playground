@@ -12,4 +12,10 @@ public class Players {
 	public static Players from(List<Player> players) {
 		return new Players(players);
 	}
+
+	public void addCard(Deck deck) {
+		for (Player player : elements) {
+			player.addCard(deck.draw());
+		}
+	}
 }

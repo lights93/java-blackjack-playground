@@ -2,10 +2,13 @@ package blackjack.minhoyoo.service;
 
 import java.util.stream.Collectors;
 
+import blackjack.minhoyoo.domain.Dealer;
+import blackjack.minhoyoo.domain.Deck;
 import blackjack.minhoyoo.domain.Money;
 import blackjack.minhoyoo.domain.Names;
 import blackjack.minhoyoo.domain.Player;
 import blackjack.minhoyoo.domain.Players;
+import blackjack.minhoyoo.domain.RandomShuffleStrategy;
 import blackjack.minhoyoo.view.InputView;
 import blackjack.minhoyoo.view.ResultView;
 
@@ -15,6 +18,11 @@ public class BlackJack {
 
 	public static void start() {
 		Players players = getPlayers(getNames());
+		Dealer dealer = new Dealer();
+
+		Deck deck = new Deck(new RandomShuffleStrategy());
+
+		initCards(players, dealer, deck);
 	}
 
 	private static Names getNames() {
@@ -39,5 +47,12 @@ public class BlackJack {
 		return Players.from(names.getValues().stream()
 			.map(name -> new Player(name, getMoney(name.getValue())))
 			.collect(Collectors.toList()));
+	}
+
+	private static void initCards(Players players, Dealer dealer, Deck deck) {
+		players.addCard(deck);
+		players.addCard(deck);
+		dealer.addCard(deck.draw());
+		dealer.addCard(deck.draw());
 	}
 }

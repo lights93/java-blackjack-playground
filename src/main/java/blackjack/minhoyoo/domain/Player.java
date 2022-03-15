@@ -1,6 +1,6 @@
 package blackjack.minhoyoo.domain;
 
-public class Player {
+public class Player extends CardOwner {
 	private final Name name;
 	private final Money money;
 
