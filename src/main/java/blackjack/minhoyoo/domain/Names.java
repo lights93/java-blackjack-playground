@@ -1,6 +1,7 @@
 package blackjack.minhoyoo.domain;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,5 +22,9 @@ public class Names {
 
 	public int size() {
 		return values.size();
+	}
+
+	public List<Name> getValues() {
+		return Collections.unmodifiableList(values);
 	}
 }

@@ -16,4 +16,8 @@ public class Name {
 	public static Name from(String name) {
 		return new Name(name);
 	}
+
+	public String getValue() {
+		return value;
+	}
 }

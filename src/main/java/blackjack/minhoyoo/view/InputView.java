@@ -15,4 +15,9 @@ public class InputView {
 		System.out.println("게임에 참여할 사람의 이름을 입력하세요.(쉼표 기준으로 분리)");
 		return REMOVE_ALL_SPACES_PATTERN.matcher(scanner.nextLine()).replaceAll(EMPTY);
 	}
+
+	public static String getMoney(String name) {
+		System.out.println(name + "의 배팅 금액은?");
+		return REMOVE_ALL_SPACES_PATTERN.matcher(scanner.nextLine()).replaceAll(EMPTY);
+	}
 }
