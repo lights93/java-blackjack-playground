@@ -9,6 +9,7 @@ import blackjack.minhoyoo.domain.Names;
 import blackjack.minhoyoo.domain.Player;
 import blackjack.minhoyoo.domain.Players;
 import blackjack.minhoyoo.domain.RandomShuffleStrategy;
+import blackjack.minhoyoo.domain.StatusMessage;
 import blackjack.minhoyoo.view.InputView;
 import blackjack.minhoyoo.view.ResultView;
 
@@ -23,6 +24,16 @@ public class BlackJack {
 		Deck deck = new Deck(new RandomShuffleStrategy());
 
 		initCards(players, dealer, deck);
+		printStatus(players, dealer);
+	}
+
+	private static void printStatus(Players players, Dealer dealer) {
+		players.getElements()
+			.stream()
+			.map(player -> StatusMessage.from(player).getMessage())
+			.forEach(ResultView::printMessage);
+
+		ResultView.printMessage(StatusMessage.from(dealer).getMessage());
 	}
 
 	private static Names getNames() {

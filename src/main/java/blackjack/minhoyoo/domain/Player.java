@@ -11,4 +11,8 @@ public class Player extends CardOwner {
 		this.name = name;
 		this.money = money;
 	}
+
+	public Name getName() {
+		return name;
+	}
 }

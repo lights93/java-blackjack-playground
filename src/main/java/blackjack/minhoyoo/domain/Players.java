@@ -1,5 +1,6 @@
 package blackjack.minhoyoo.domain;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Players {
@@ -11,6 +12,10 @@ public class Players {
 
 	public static Players from(List<Player> players) {
 		return new Players(players);
+	}
+
+	public List<Player> getElements() {
+		return Collections.unmodifiableList(elements);
 	}
 
 	public void addCard(Deck deck) {
