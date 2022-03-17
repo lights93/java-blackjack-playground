@@ -20,4 +20,9 @@ public class InputView {
 		System.out.println(name + "의 배팅 금액은?");
 		return REMOVE_ALL_SPACES_PATTERN.matcher(scanner.nextLine()).replaceAll(EMPTY);
 	}
+
+	public static String getMoreCardInput(String name) {
+		System.out.println(name + "님 한장의 카드를 더 받겠습니까?(예는 y, 아니오는 n)");
+		return REMOVE_ALL_SPACES_PATTERN.matcher(scanner.nextLine()).replaceAll(EMPTY);
+	}
 }

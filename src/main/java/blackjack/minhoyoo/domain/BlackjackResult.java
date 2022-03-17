@@ -3,6 +3,7 @@ package blackjack.minhoyoo.domain;
 public class BlackjackResult {
 	private static final int BLACK_JACK = 21;
 	private static final int INIT_SIZE = 2;
+	public static final int DEALER_MIN_NUMBER = 17;
 	private final int result;
 	private final boolean isFirst;
 
@@ -21,5 +22,13 @@ public class BlackjackResult {
 
 	public boolean isFirstBlackJack() {
 		return isBlackjack() && isFirst;
+	}
+
+	public boolean isOverBlackjack() {
+		return result > BLACK_JACK;
+	}
+
+	public boolean isDealerEnd() {
+		return result >= DEALER_MIN_NUMBER;
 	}
 }

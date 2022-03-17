@@ -9,6 +9,7 @@ import blackjack.minhoyoo.domain.CardOwner;
 import blackjack.minhoyoo.domain.Dealer;
 import blackjack.minhoyoo.domain.Deck;
 import blackjack.minhoyoo.domain.Money;
+import blackjack.minhoyoo.domain.MoreCardType;
 import blackjack.minhoyoo.domain.Names;
 import blackjack.minhoyoo.domain.Player;
 import blackjack.minhoyoo.domain.RandomShuffleStrategy;
@@ -17,38 +18,72 @@ import blackjack.minhoyoo.view.InputView;
 import blackjack.minhoyoo.view.ResultView;
 
 public class BlackJack {
-	private BlackJack() {
-	}
+	private static final Deck deck = new Deck(new RandomShuffleStrategy());
 
-	public static void start() {
+	public void start() {
 		List<Player> players = getPlayers(getNames());
 		List<CardOwner> cardOwners = new ArrayList<>(players);
-		cardOwners.add(new Dealer());
+		Dealer dealer = new Dealer();
 
-		Deck deck = new Deck(new RandomShuffleStrategy());
+		cardOwners.add(dealer);
 
-		drawCard(cardOwners, deck);
-		drawCard(cardOwners, deck);
-		printStatus(cardOwners);
+		drawCard(cardOwners);
+		drawCard(cardOwners);
+		cardOwners.forEach(this::printStatus);
 
 		if (isFirstBlackjack(players)) {
 			printResult(players);
 			return;
 		}
 
+		players.forEach(this::setCards);
+		drawDealerCards(dealer);
 	}
 
-	private static void printResult(List<Player> players) {
+	private void drawDealerCards(Dealer dealer) {
+		BlackjackResult blackjackResult = dealer.calculateResult();
+		if(!blackjackResult.isDealerEnd()) {
+			ResultView.printMessage("딜러는 16이하라 한장의 카드를 더 받았습니다.");
+			dealer.addCard(deck.draw());
+			drawDealerCards(dealer);
+		}
+	}
+
+	private void setCards(Player player) {
+		BlackjackResult blackjackResult = player.calculateResult();
+
+		if (blackjackResult.isOverBlackjack()) {
+			return;
+		}
+
+		MoreCardType moreCardType = getMoreCardType(player);
+		if (moreCardType.isMore()) {
+			player.addCard(deck.draw());
+			printStatus(player);
+			setCards(player);
+		}
+	}
+
+	private MoreCardType getMoreCardType(Player player) {
+		try {
+			return MoreCardType.from(InputView.getMoreCardInput(player.getName().getValue()));
+		} catch (IllegalArgumentException e) {
+			ResultView.printMessage("잘못된 입력입니다.");
+			return getMoreCardType(player);
+		}
+	}
+
+	private void printResult(List<Player> players) {
 		// TODO
 	}
 
-	private static boolean isFirstBlackjack(List<Player> players) {
+	private boolean isFirstBlackjack(List<Player> players) {
 		return players.stream()
 			.map(CardOwner::calculateResult)
 			.anyMatch(BlackjackResult::isFirstBlackJack);
 	}
 
-	private static Names getNames() {
+	private Names getNames() {
 		try {
 			return Names.from(InputView.getNames());
 		} catch (IllegalArgumentException e) {
@@ -57,7 +92,7 @@ public class BlackJack {
 		}
 	}
 
-	private static Money getMoney(String name) {
+	private Money getMoney(String name) {
 		try {
 			return Money.from(InputView.getMoney(name));
 		} catch (IllegalArgumentException e) {
@@ -66,19 +101,18 @@ public class BlackJack {
 		}
 	}
 
-	private static List<Player> getPlayers(Names names) {
+	private List<Player> getPlayers(Names names) {
 		return names.getValues().stream()
 			.map(name -> new Player(name, getMoney(name.getValue())))
 			.collect(Collectors.toList());
 	}
 
-	private static void drawCard(List<CardOwner> cardOwners, Deck deck) {
+	private void drawCard(List<CardOwner> cardOwners) {
 		cardOwners.forEach(cardOwner -> cardOwner.addCard(deck.draw()));
 	}
 
-	private static void printStatus(List<CardOwner> cardOwners) {
-		cardOwners.stream()
-			.map(cardOwner -> StatusMessage.from(cardOwner).getMessage())
-			.forEach(ResultView::printMessage);
+	private void printStatus(CardOwner cardOwner) {
+		String message = StatusMessage.from(cardOwner).getMessage();
+		ResultView.printMessage(message);
 	}
 }
