@@ -14,7 +14,7 @@ class CardsTest {
 		cards.addCard(new Card(CardNumber.NINE, Suit.SPADE));
 		cards.addCard(new Card(CardNumber.SIX, Suit.SPADE));
 
-		assertThat(cards.calculate()).isEqualTo(25);
+		assertThat(cards.calculateResult()).isEqualTo(25);
 	}
 
 	@DisplayName("ACE가 1로 계산")
@@ -25,7 +25,7 @@ class CardsTest {
 		cards.addCard(new Card(CardNumber.ONE, Suit.SPADE));
 		cards.addCard(new Card(CardNumber.ACE, Suit.SPADE));
 
-		assertThat(cards.calculate()).isEqualTo(12);
+		assertThat(cards.calculateResult()).isEqualTo(12);
 	}
 
 	@DisplayName("ACE가 11로 계산")
@@ -35,6 +35,6 @@ class CardsTest {
 		cards.addCard(new Card(CardNumber.KING, Suit.SPADE));
 		cards.addCard(new Card(CardNumber.ACE, Suit.SPADE));
 
-		assertThat(cards.calculate()).isEqualTo(21);
+		assertThat(cards.calculateResult()).isEqualTo(21);
 	}
 }

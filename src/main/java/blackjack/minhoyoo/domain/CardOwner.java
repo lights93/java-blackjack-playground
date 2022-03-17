@@ -12,4 +12,8 @@ public abstract class CardOwner {
 	public List<Card> getCards() {
 		return cards.getAll();
 	}
+
+	public BlackjackResult calculateResult() {
+		return BlackjackResult.from(cards);
+	}
 }

@@ -21,4 +21,12 @@ class MoneyTest {
 			.isThrownBy(() -> Money.from(input))
 			.withMessage("잘못된 금액입니다.");
 	}
+
+	@DisplayName("곱하기")
+	@Test
+	void addHalf() {
+		Money money10 = Money.from("10");
+
+		assertThat(money10.addHalf()).isEqualTo(Money.from("15"));
+	}
 }

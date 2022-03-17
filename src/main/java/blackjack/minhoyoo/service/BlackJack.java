@@ -1,13 +1,16 @@
 package blackjack.minhoyoo.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
+import blackjack.minhoyoo.domain.BlackjackResult;
+import blackjack.minhoyoo.domain.CardOwner;
 import blackjack.minhoyoo.domain.Dealer;
 import blackjack.minhoyoo.domain.Deck;
 import blackjack.minhoyoo.domain.Money;
 import blackjack.minhoyoo.domain.Names;
 import blackjack.minhoyoo.domain.Player;
-import blackjack.minhoyoo.domain.Players;
 import blackjack.minhoyoo.domain.RandomShuffleStrategy;
 import blackjack.minhoyoo.domain.StatusMessage;
 import blackjack.minhoyoo.view.InputView;
@@ -18,22 +21,31 @@ public class BlackJack {
 	}
 
 	public static void start() {
-		Players players = getPlayers(getNames());
-		Dealer dealer = new Dealer();
+		List<Player> players = getPlayers(getNames());
+		List<CardOwner> cardOwners = new ArrayList<>(players);
+		cardOwners.add(new Dealer());
 
 		Deck deck = new Deck(new RandomShuffleStrategy());
 
-		initCards(players, dealer, deck);
-		printStatus(players, dealer);
+		drawCard(cardOwners, deck);
+		drawCard(cardOwners, deck);
+		printStatus(cardOwners);
+
+		if (isFirstBlackjack(players)) {
+			printResult(players);
+			return;
+		}
+
 	}
 
-	private static void printStatus(Players players, Dealer dealer) {
-		players.getElements()
-			.stream()
-			.map(player -> StatusMessage.from(player).getMessage())
-			.forEach(ResultView::printMessage);
+	private static void printResult(List<Player> players) {
+		// TODO
+	}
 
-		ResultView.printMessage(StatusMessage.from(dealer).getMessage());
+	private static boolean isFirstBlackjack(List<Player> players) {
+		return players.stream()
+			.map(CardOwner::calculateResult)
+			.anyMatch(BlackjackResult::isFirstBlackJack);
 	}
 
 	private static Names getNames() {
@@ -54,16 +66,19 @@ public class BlackJack {
 		}
 	}
 
-	private static Players getPlayers(Names names) {
-		return Players.from(names.getValues().stream()
+	private static List<Player> getPlayers(Names names) {
+		return names.getValues().stream()
 			.map(name -> new Player(name, getMoney(name.getValue())))
-			.collect(Collectors.toList()));
+			.collect(Collectors.toList());
 	}
 
-	private static void initCards(Players players, Dealer dealer, Deck deck) {
-		players.addCard(deck);
-		players.addCard(deck);
-		dealer.addCard(deck.draw());
-		dealer.addCard(deck.draw());
+	private static void drawCard(List<CardOwner> cardOwners, Deck deck) {
+		cardOwners.forEach(cardOwner -> cardOwner.addCard(deck.draw()));
+	}
+
+	private static void printStatus(List<CardOwner> cardOwners) {
+		cardOwners.stream()
+			.map(cardOwner -> StatusMessage.from(cardOwner).getMessage())
+			.forEach(ResultView::printMessage);
 	}
 }

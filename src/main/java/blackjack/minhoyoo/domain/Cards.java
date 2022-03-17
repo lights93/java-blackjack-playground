@@ -25,7 +25,7 @@ public class Cards {
 		return Collections.unmodifiableList(elements);
 	}
 
-	public int calculate() {
+	public int calculateResult() {
 		int sum = calculateSum();
 
 		if (sum <= MAX_SUM) {
@@ -48,5 +48,9 @@ public class Cards {
 	private boolean containsAce() {
 		return elements.stream()
 			.anyMatch(Card::isAce);
+	}
+
+	public int size() {
+		return elements.size();
 	}
 }

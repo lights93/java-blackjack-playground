@@ -15,4 +15,8 @@ public class Player extends CardOwner {
 	public Name getName() {
 		return name;
 	}
+
+	public Money getMoney() {
+		return money;
+	}
 }
