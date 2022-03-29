@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 class BlackjackResultTest {
 	private Cards blackjackCards;
 	private Cards firstBlackjackCards;
-	private Cards overBlackjackCards;
+	private Cards lessBlackjackCards;
 	@BeforeEach
 	void setUp() {
 		blackjackCards = Cards.empty();
@@ -21,10 +21,10 @@ class BlackjackResultTest {
 		firstBlackjackCards.addCard(new Card(CardNumber.KING, Suit.SPADE));
 		firstBlackjackCards.addCard(new Card(CardNumber.ACE, Suit.SPADE));
 
-		overBlackjackCards = Cards.empty();
-		overBlackjackCards.addCard(new Card(CardNumber.KING, Suit.SPADE));
-		overBlackjackCards.addCard(new Card(CardNumber.TWO, Suit.SPADE));
-		overBlackjackCards.addCard(new Card(CardNumber.JACK, Suit.SPADE));
+		lessBlackjackCards = Cards.empty();
+		lessBlackjackCards.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
+		lessBlackjackCards.addCard(new Card(CardNumber.TWO, Suit.SPADE));
+		lessBlackjackCards.addCard(new Card(CardNumber.JACK, Suit.SPADE));
 	}
 
 	@DisplayName("블랙잭인지 확인")
@@ -38,7 +38,7 @@ class BlackjackResultTest {
 	@DisplayName("블랙잭 아닌 것 확인")
 	@Test
 	void isBlackjackFalse() {
-		BlackjackResult blackjackResult = BlackjackResult.from(overBlackjackCards);
+		BlackjackResult blackjackResult = BlackjackResult.from(lessBlackjackCards);
 
 		assertThat(blackjackResult.isBlackjack()).isFalse();
 	}
@@ -60,20 +60,19 @@ class BlackjackResultTest {
 		assertThat(blackjackResult.isFirstBlackJack()).isFalse();
 	}
 
-	@DisplayName("21을 넘음")
+	@DisplayName("21 이상")
 	@Test
-	void isOverBlackjackTrue() {
-		BlackjackResult blackjackResult = BlackjackResult.from(overBlackjackCards);
-
-		assertThat(blackjackResult.isOverBlackjack()).isTrue();
+	void isBlackjackOrMoreTrue() {
+		BlackjackResult blackjackResult = BlackjackResult.from(blackjackCards);
+		assertThat(blackjackResult.isBlackjackOrMore()).isTrue();
 	}
 
-	@DisplayName("21 이하")
+	@DisplayName("21 미만")
 	@Test
-	void isOverBlackjackFalse() {
-		BlackjackResult blackjackResult = BlackjackResult.from(blackjackCards);
+	void isBlackjackOrMoreFalse() {
+		BlackjackResult blackjackResult = BlackjackResult.from(lessBlackjackCards);
 
-		assertThat(blackjackResult.isOverBlackjack()).isFalse();
+		assertThat(blackjackResult.isBlackjackOrMore()).isFalse();
 	}
 
 	@DisplayName("17 이상")

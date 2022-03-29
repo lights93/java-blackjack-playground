@@ -24,8 +24,8 @@ public class BlackjackResult {
 		return isBlackjack() && isFirst;
 	}
 
-	public boolean isOverBlackjack() {
-		return result > BLACK_JACK;
+	public boolean isBlackjackOrMore() {
+		return result >= BLACK_JACK;
 	}
 
 	public boolean isDealerEnd() {

@@ -47,7 +47,7 @@ public class BlackJack {
 	private void setCards(Player player) {
 		BlackjackResult blackjackResult = player.calculateResult();
 
-		if (blackjackResult.isOverBlackjack()) {
+		if (blackjackResult.isBlackjackOrMore()) {
 			return;
 		}
 
