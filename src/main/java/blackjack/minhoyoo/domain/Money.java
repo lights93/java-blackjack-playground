@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Money {
 	public static final Money ZERO = new Money(0);
-	private static final double FIRST_BLACKJACK_MULTIPLE_VALUE = 2.5;
+	private static final double FIRST_BLACKJACK_MULTIPLE_VALUE = 1.5;
 
 	private final int value;
 
@@ -20,7 +20,7 @@ public class Money {
 		}
 	}
 
-	public Money addOneAndHalf() {
+	public Money addHalf() {
 		return new Money((int)(this.value * FIRST_BLACKJACK_MULTIPLE_VALUE));
 	}
 

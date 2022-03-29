@@ -35,4 +35,8 @@ public class BlackjackResult {
 	public boolean isDealerEnd() {
 		return result >= DEALER_MIN_NUMBER;
 	}
+
+	public boolean isBiggerThan(BlackjackResult other) {
+		return result > other.result;
+	}
 }

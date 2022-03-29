@@ -32,21 +32,30 @@ public class CardOwners {
 			return;
 		}
 
-		Money originSum = calculateSum();
 		updateMoney(dealerResult);
 		Money newSum = calculateSum();
 
-		dealer.updateMoney(originSum.minus(newSum));
+		dealer.updateMoney(newSum.reverse());
 	}
 
 	private void updateMoney(BlackjackResult dealerResult) {
-		if(dealerResult.isOverBlackjack()) {
-			players.forEach(this::allPlayersWin);
+		if (dealerResult.isOverBlackjack()) {
 			return;
 		}
 
 		if (isPlayerBlackjack(dealerResult)) {
 			players.forEach(this::updateFirstBlackJack);
+			return;
+		}
+
+		players.forEach(player -> updatePlayerMoney(dealerResult, player));
+	}
+
+	private void updatePlayerMoney(BlackjackResult dealerResult, Player player) {
+		if (dealerResult.isBiggerThan(player.calculateResult())) {
+			player.lose();
+		} else if(!player.calculateResult().isBiggerThan(dealerResult)) {
+			player.updateMoney(Money.ZERO);
 		}
 	}
 
@@ -61,10 +70,6 @@ public class CardOwners {
 		boolean hasBlackJack = players.stream()
 			.anyMatch(player -> player.calculateResult().isBlackjack());
 		return !dealerResult.isBlackjack() && hasBlackJack;
-	}
-
-	private void allPlayersWin(Player player) {
-		player.updateBlackJackMoney();
 	}
 
 	private void updateFirstBlackJack(Player player) {

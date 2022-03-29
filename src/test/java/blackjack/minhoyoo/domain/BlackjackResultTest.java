@@ -117,4 +117,22 @@ class BlackjackResultTest {
 
 		assertThat(blackjackResult.isDealerEnd()).isFalse();
 	}
+
+	@DisplayName("좌변이 이김")
+	@Test
+	void isBiggerThanTrue() {
+		BlackjackResult bigger = BlackjackResult.from(blackjackCards);
+		BlackjackResult smaller = BlackjackResult.from(lessBlackjackCards);
+
+		assertThat(bigger.isBiggerThan(smaller)).isTrue();
+	}
+
+	@DisplayName("좌변이 짐")
+	@Test
+	void isBiggerThanFalse() {
+		BlackjackResult bigger = BlackjackResult.from(blackjackCards);
+		BlackjackResult smaller = BlackjackResult.from(lessBlackjackCards);
+
+		assertThat(smaller.isBiggerThan(bigger)).isFalse();
+	}
 }

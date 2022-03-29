@@ -31,15 +31,11 @@ public abstract class CardOwner {
 	}
 
 	public void updateFirstBlackJackMoney() {
-		money = money.addOneAndHalf();
+		money = money.addHalf();
 	}
 
 	public void updateMoney(Money money) {
 		this.money = money;
-	}
-
-	public void updateBlackJackMoney() {
-		money = money.add(money);
 	}
 
 	public void lose() {

@@ -81,9 +81,9 @@ class CardOwnersTest {
 		cardOwners.updateMoney();
 
 		assertAll(
-			() -> assertThat(player1.getMoney()).isEqualTo(Money.from("250")),
+			() -> assertThat(player1.getMoney()).isEqualTo(Money.from("150")),
 			() -> assertThat(player2.getMoney()).isEqualTo(Money.from("-100")),
-			() -> assertThat(dealer.getMoney()).isEqualTo(Money.from("50"))
+			() -> assertThat(dealer.getMoney()).isEqualTo(Money.from("-50"))
 		);
 	}
 
@@ -141,9 +141,38 @@ class CardOwnersTest {
 		cardOwners.updateMoney();
 
 		assertAll(
-			() -> assertThat(player1.getMoney()).isEqualTo(Money.from("200")),
-			() -> assertThat(player2.getMoney()).isEqualTo(Money.from("200")),
+			() -> assertThat(player1.getMoney()).isEqualTo(Money.from("100")),
+			() -> assertThat(player2.getMoney()).isEqualTo(Money.from("100")),
 			() -> assertThat(dealer.getMoney()).isEqualTo(Money.from("-200"))
+		);
+	}
+
+	@DisplayName("블랙잭 없는 일반적인 계산")
+	@Test
+	void updateMoney() {
+		Player player1 = new Player(Name.from("pobi"), Money.from("100"));
+
+		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
+		player1.addCard(new Card(CardNumber.ONE, Suit.SPADE));
+
+		Player player2 = new Player(Name.from("minho"), Money.from("200"));
+
+		player2.addCard(new Card(CardNumber.KING, Suit.HEART));
+		player2.addCard(new Card(CardNumber.QUEEN, Suit.HEART));
+
+		Dealer dealer = new Dealer();
+		dealer.addCard(new Card(CardNumber.KING, Suit.CLUB));
+		dealer.addCard(new Card(CardNumber.EIGHT, Suit.CLUB));
+
+		CardOwners cardOwners = new CardOwners(
+			Arrays.asList(player1, player2), dealer);
+
+		cardOwners.updateMoney();
+
+		assertAll(
+			() -> assertThat(player1.getMoney()).isEqualTo(Money.from("-100")),
+			() -> assertThat(player2.getMoney()).isEqualTo(Money.from("200")),
+			() -> assertThat(dealer.getMoney()).isEqualTo(Money.from("-100"))
 		);
 	}
 }

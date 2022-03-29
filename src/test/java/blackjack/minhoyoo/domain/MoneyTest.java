@@ -25,7 +25,7 @@ class MoneyTest {
 	void addHalf() {
 		Money money10 = Money.from("10");
 
-		assertThat(money10.addOneAndHalf()).isEqualTo(Money.from("25"));
+		assertThat(money10.addHalf()).isEqualTo(Money.from("15"));
 	}
 
 	@DisplayName("곱하기")
