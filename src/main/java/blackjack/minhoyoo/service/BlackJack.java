@@ -31,11 +31,6 @@ public class BlackJack {
 		drawCard(cardOwners);
 		cardOwners.forEach(this::printStatus);
 
-		if (isFirstBlackjack(players)) {
-			printResult(players);
-			return;
-		}
-
 		players.forEach(this::setCards);
 		drawDealerCards(dealer);
 	}
@@ -71,16 +66,6 @@ public class BlackJack {
 			ResultView.printMessage("잘못된 입력입니다.");
 			return getMoreCardType(player);
 		}
-	}
-
-	private void printResult(List<Player> players) {
-		// TODO
-	}
-
-	private boolean isFirstBlackjack(List<Player> players) {
-		return players.stream()
-			.map(CardOwner::calculateResult)
-			.anyMatch(BlackjackResult::isFirstBlackJack);
 	}
 
 	private Names getNames() {
