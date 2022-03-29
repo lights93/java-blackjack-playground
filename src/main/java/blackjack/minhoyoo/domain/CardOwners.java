@@ -3,6 +3,7 @@ package blackjack.minhoyoo.domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class CardOwners {
 	private final List<Player> players;
@@ -23,6 +24,37 @@ public class CardOwners {
 		owners.add(dealer);
 
 		return owners;
+	}
+
+	public void updateMoney() {
+		Money originSum = calculateSum();
+
+		BlackjackResult dealerResult = dealer.calculateResult();
+
+		boolean hasBlackJack = players.stream()
+			.anyMatch(player -> player.calculateResult().isBlackjack());
+
+		if (!dealerResult.isBlackjack() && hasBlackJack) {
+			players.forEach(this::updateFirstBlackJack);
+		}
+
+		Money newSum = calculateSum();
+
+		dealer.updateMoney(originSum.minus(newSum));
+	}
+
+	private void updateFirstBlackJack(Player player) {
+		if (player.calculateResult().isFirstBlackJack()) {
+			player.updateFirstBlackJackMoney();
+		} else {
+			player.lose();
+		}
+	}
+
+	private Money calculateSum() {
+		return players.stream()
+			.map(CardOwner::getMoney)
+			.reduce(Money.ZERO, (Money::add));
 	}
 
 	@Override

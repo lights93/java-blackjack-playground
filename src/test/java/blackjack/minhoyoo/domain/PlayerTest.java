@@ -15,14 +15,4 @@ class PlayerTest {
 			.isThrownBy(() -> new Player(null, money))
 			.withMessage("플레이어에 필요한 값이 없습니다.");
 	}
-
-	@DisplayName("베팅금 값 비어있을 때 에러")
-	@Test
-	void constructErrorWithMoneyNull() {
-		Name name = Name.from("name");
-
-		assertThatExceptionOfType(IllegalArgumentException.class)
-			.isThrownBy(() -> new Player(name, null))
-			.withMessage("플레이어에 필요한 값이 없습니다.");
-	}
 }

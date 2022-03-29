@@ -32,6 +32,9 @@ public class BlackJack {
 
 		players.forEach(this::setCards);
 		drawDealerCards(dealer);
+
+		cardOwners.updateMoney();
+		printStatus(cardOwners);
 	}
 
 	private void drawDealerCards(Dealer dealer) {

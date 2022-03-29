@@ -16,4 +16,12 @@ class CardOwnerTest {
 
 		assertThat(dealer.getCards()).isEqualTo(Arrays.asList(new Card(CardNumber.ACE, Suit.SPADE)));
 	}
+
+	@DisplayName("베팅금 값 비어있을 때 에러")
+	@Test
+	void constructErrorWithMoneyNull() {
+		assertThatExceptionOfType(IllegalArgumentException.class)
+			.isThrownBy(() -> new CardOwner(null){})
+			.withMessage("금액 입력이 필요합니다.");
+	}
 }

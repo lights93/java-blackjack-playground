@@ -3,13 +3,12 @@ package blackjack.minhoyoo.domain;
 import java.util.Objects;
 
 public class Money {
-	private static final int MIN_MONEY = 0;
+	public static final Money ZERO = new Money(0);
+	private static final double FIRST_BLACKJACK_MULTIPLE_VALUE = 2.5;
+
 	private final int value;
 
 	private Money(int value) {
-		if (value < MIN_MONEY) {
-			throw new IllegalArgumentException("잘못된 금액입니다.");
-		}
 		this.value = value;
 	}
 
@@ -21,12 +20,20 @@ public class Money {
 		}
 	}
 
-	public int getValue() {
-		return value;
+	public Money addOneAndHalf() {
+		return new Money((int)(this.value * FIRST_BLACKJACK_MULTIPLE_VALUE));
 	}
 
-	public Money addHalf() {
-		return new Money((int)(this.value * 1.5));
+	public Money add(Money other) {
+		return new Money(this.value + other.value);
+	}
+
+	public Money minus(Money other) {
+		return new Money(this.value - other.value);
+	}
+
+	public Money reverse() {
+		return new Money(-value);
 	}
 
 	@Override

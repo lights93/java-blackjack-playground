@@ -5,9 +5,21 @@ import java.util.Objects;
 
 public abstract class CardOwner {
 	private final Cards cards = Cards.empty();
+	private Money money;
+
+	protected CardOwner(Money money) {
+		if(money == null) {
+			throw new IllegalArgumentException("금액 입력이 필요합니다.");
+		}
+		this.money = money;
+	}
 
 	public void addCard(Card card) {
 		cards.addCard(card);
+	}
+
+	public Money getMoney() {
+		return money;
 	}
 
 	public List<Card> getCards() {
@@ -31,5 +43,17 @@ public abstract class CardOwner {
 	@Override
 	public int hashCode() {
 		return Objects.hash(cards);
+	}
+
+	public void updateFirstBlackJackMoney() {
+		money = money.addOneAndHalf();
+	}
+
+	public void updateMoney(Money money) {
+		this.money = money;
+	}
+
+	public void lose() {
+		this.money = money.reverse();
 	}
 }

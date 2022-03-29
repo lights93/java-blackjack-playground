@@ -34,7 +34,7 @@ class StatusMessageTest {
 	@DisplayName("잘못된 타입으로 들어올 때 에러")
 	@Test
 	void getMessageError() {
-		CardOwner cardOwner = new CardOwner() {
+		CardOwner cardOwner = new CardOwner(Money.ZERO) {
 		};
 
 		assertThatExceptionOfType(IllegalArgumentException.class)
