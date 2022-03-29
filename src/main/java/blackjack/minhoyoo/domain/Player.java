@@ -1,5 +1,7 @@
 package blackjack.minhoyoo.domain;
 
+import java.util.Objects;
+
 public class Player extends CardOwner {
 	private final Name name;
 	private final Money money;
@@ -18,5 +20,22 @@ public class Player extends CardOwner {
 
 	public Money getMoney() {
 		return money;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		if (!super.equals(o))
+			return false;
+		Player player = (Player)o;
+		return Objects.equals(name, player.name) && Objects.equals(money, player.money);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), name, money);
 	}
 }

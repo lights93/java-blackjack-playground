@@ -3,6 +3,7 @@ package blackjack.minhoyoo.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Cards {
 	private static final int MAX_SUM = 21;
@@ -52,5 +53,20 @@ public class Cards {
 
 	public int size() {
 		return elements.size();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Cards cards = (Cards)o;
+		return Objects.equals(elements, cards.elements);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(elements);
 	}
 }

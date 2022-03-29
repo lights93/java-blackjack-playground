@@ -1,11 +1,11 @@
 package blackjack.minhoyoo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import blackjack.minhoyoo.domain.BlackjackResult;
 import blackjack.minhoyoo.domain.CardOwner;
+import blackjack.minhoyoo.domain.CardOwners;
 import blackjack.minhoyoo.domain.Dealer;
 import blackjack.minhoyoo.domain.Deck;
 import blackjack.minhoyoo.domain.Money;
@@ -14,6 +14,7 @@ import blackjack.minhoyoo.domain.Names;
 import blackjack.minhoyoo.domain.Player;
 import blackjack.minhoyoo.domain.RandomShuffleStrategy;
 import blackjack.minhoyoo.domain.StatusMessage;
+import blackjack.minhoyoo.domain.StatusMessages;
 import blackjack.minhoyoo.view.InputView;
 import blackjack.minhoyoo.view.ResultView;
 
@@ -22,14 +23,12 @@ public class BlackJack {
 
 	public void start() {
 		List<Player> players = getPlayers(getNames());
-		List<CardOwner> cardOwners = new ArrayList<>(players);
 		Dealer dealer = new Dealer();
+		CardOwners cardOwners = new CardOwners(players, dealer);
 
-		cardOwners.add(dealer);
-
-		drawCard(cardOwners);
-		drawCard(cardOwners);
-		cardOwners.forEach(this::printStatus);
+		cardOwners.drawCard(deck);
+		cardOwners.drawCard(deck);
+		printStatus(cardOwners);
 
 		players.forEach(this::setCards);
 		drawDealerCards(dealer);
@@ -92,12 +91,13 @@ public class BlackJack {
 			.collect(Collectors.toList());
 	}
 
-	private void drawCard(List<CardOwner> cardOwners) {
-		cardOwners.forEach(cardOwner -> cardOwner.addCard(deck.draw()));
-	}
-
 	private void printStatus(CardOwner cardOwner) {
 		String message = StatusMessage.from(cardOwner).getMessage();
+		ResultView.printMessage(message);
+	}
+
+	private void printStatus(CardOwners cardOwners) {
+		String message = StatusMessages.from(cardOwners).getMessage();
 		ResultView.printMessage(message);
 	}
 }
