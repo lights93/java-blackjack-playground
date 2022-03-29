@@ -60,7 +60,7 @@ class CardOwnersTest {
 
 	@DisplayName("처음 두 장의 카드 합이 21일 경우 블랙잭이 되면 베팅 금액의 1.5 배를 딜러에게 받는다")
 	@Test
-	void updateMoney() {
+	void playerFirstBlackJackWin() {
 		Player player1 = new Player(Name.from("pobi"), Money.from("100"));
 
 		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
@@ -82,6 +82,35 @@ class CardOwnersTest {
 			() -> assertThat(player1.getMoney()).isEqualTo(Money.from("250")),
 			() -> assertThat(player2.getMoney()).isEqualTo(Money.from("-100")),
 			() -> assertThat(dealer.getMoney()).isEqualTo(Money.from("50"))
+		);
+	}
+
+	@DisplayName("딜러와 플레이어가 모두 동시에 블랙잭인 경우 플레이어는 베팅한 금액을 돌려받는다.")
+	@Test
+	void allBlackjack() {
+		Player player1 = new Player(Name.from("pobi"), Money.from("100"));
+
+		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
+		player1.addCard(new Card(CardNumber.ACE, Suit.SPADE));
+
+		Player player2 = new Player(Name.from("minho"), Money.from("100"));
+
+		player2.addCard(new Card(CardNumber.KING, Suit.HEART));
+		player2.addCard(new Card(CardNumber.ACE, Suit.HEART));
+
+		Dealer dealer = new Dealer();
+		dealer.addCard(new Card(CardNumber.KING, Suit.CLUB));
+		dealer.addCard(new Card(CardNumber.ACE, Suit.CLUB));
+
+		CardOwners cardOwners = new CardOwners(
+			Arrays.asList(player1, player2), dealer);
+
+		cardOwners.updateMoney();
+
+		assertAll(
+			() -> assertThat(player1.getMoney()).isEqualTo(Money.from("100")),
+			() -> assertThat(player2.getMoney()).isEqualTo(Money.from("100")),
+			() -> assertThat(dealer.getMoney()).isEqualTo(Money.from("0"))
 		);
 	}
 }
