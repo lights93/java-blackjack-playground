@@ -21,4 +21,10 @@ public class StatusMessages {
 			.map(StatusMessage::getMessage)
 			.collect(Collectors.joining("\n"));
 	}
+
+	public String getMessageWithResult() {
+		return messages.stream()
+			.map(StatusMessage::getMessageWithResult)
+			.collect(Collectors.joining("\n"));
+	}
 }

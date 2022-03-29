@@ -20,6 +20,10 @@ public class Money {
 		}
 	}
 
+	public int getValue() {
+		return value;
+	}
+
 	public Money addHalf() {
 		return new Money((int)(this.value * FIRST_BLACKJACK_MULTIPLE_VALUE));
 	}

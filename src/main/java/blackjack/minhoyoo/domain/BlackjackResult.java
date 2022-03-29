@@ -16,6 +16,10 @@ public class BlackjackResult {
 		return new BlackjackResult(cards);
 	}
 
+	public int getResult() {
+		return result;
+	}
+
 	public boolean isBlackjack() {
 		return result == BLACK_JACK;
 	}

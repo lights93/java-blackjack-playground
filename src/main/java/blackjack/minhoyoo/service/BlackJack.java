@@ -12,6 +12,7 @@ import blackjack.minhoyoo.domain.Money;
 import blackjack.minhoyoo.domain.MoreCardType;
 import blackjack.minhoyoo.domain.Names;
 import blackjack.minhoyoo.domain.Player;
+import blackjack.minhoyoo.domain.ProfitMessages;
 import blackjack.minhoyoo.domain.RandomShuffleStrategy;
 import blackjack.minhoyoo.domain.StatusMessage;
 import blackjack.minhoyoo.domain.StatusMessages;
@@ -31,6 +32,9 @@ public class BlackJack {
 		updateCards(players, dealer);
 
 		updateMoney(cardOwners);
+
+		ResultView.printMessage("\n## 최종 수익");
+		printProfitStatus(cardOwners);
 	}
 
 	private List<Player> getPlayers(Names names) {
@@ -112,7 +116,12 @@ public class BlackJack {
 	}
 
 	private void printStatus(CardOwners cardOwners) {
-		String message = StatusMessages.from(cardOwners).getMessage();
+		String message = StatusMessages.from(cardOwners).getMessageWithResult();
+		ResultView.printMessage(message);
+	}
+
+	private void printProfitStatus(CardOwners cardOwners) {
+		String message = ProfitMessages.from(cardOwners).getMessage();
 		ResultView.printMessage(message);
 	}
 }

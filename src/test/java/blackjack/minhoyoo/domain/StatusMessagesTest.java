@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class StatusMessagesTest {
 	@DisplayName("메시지 여러 건 생성")
 	@Test
-	void getMessageWhenPlayer() {
+	void getMessage() {
 		Player player = new Player(Name.from("pobi"), Money.from("1"));
 		player.addCard(new Card(CardNumber.TWO, Suit.HEART));
 		player.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
