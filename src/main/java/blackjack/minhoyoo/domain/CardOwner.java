@@ -30,6 +30,22 @@ public abstract class CardOwner {
 		return BlackjackResult.from(cards);
 	}
 
+	public void updateFirstBlackJackMoney() {
+		money = money.addOneAndHalf();
+	}
+
+	public void updateMoney(Money money) {
+		this.money = money;
+	}
+
+	public void updateBlackJackMoney() {
+		money = money.add(money);
+	}
+
+	public void lose() {
+		this.money = money.reverse();
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -43,17 +59,5 @@ public abstract class CardOwner {
 	@Override
 	public int hashCode() {
 		return Objects.hash(cards);
-	}
-
-	public void updateFirstBlackJackMoney() {
-		money = money.addOneAndHalf();
-	}
-
-	public void updateMoney(Money money) {
-		this.money = money;
-	}
-
-	public void lose() {
-		this.money = money.reverse();
 	}
 }

@@ -28,6 +28,10 @@ public class BlackjackResult {
 		return result >= BLACK_JACK;
 	}
 
+	public boolean isOverBlackjack() {
+		return result > BLACK_JACK;
+	}
+
 	public boolean isDealerEnd() {
 		return result >= DEALER_MIN_NUMBER;
 	}

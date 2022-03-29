@@ -10,6 +10,7 @@ class BlackjackResultTest {
 	private Cards blackjackCards;
 	private Cards firstBlackjackCards;
 	private Cards lessBlackjackCards;
+	private Cards overBlackjackCards;
 	@BeforeEach
 	void setUp() {
 		blackjackCards = Cards.empty();
@@ -25,6 +26,11 @@ class BlackjackResultTest {
 		lessBlackjackCards.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
 		lessBlackjackCards.addCard(new Card(CardNumber.TWO, Suit.SPADE));
 		lessBlackjackCards.addCard(new Card(CardNumber.JACK, Suit.SPADE));
+
+		overBlackjackCards = Cards.empty();
+		overBlackjackCards.addCard(new Card(CardNumber.KING, Suit.SPADE));
+		overBlackjackCards.addCard(new Card(CardNumber.TWO, Suit.SPADE));
+		overBlackjackCards.addCard(new Card(CardNumber.JACK, Suit.SPADE));
 	}
 
 	@DisplayName("블랙잭인지 확인")
@@ -73,6 +79,21 @@ class BlackjackResultTest {
 		BlackjackResult blackjackResult = BlackjackResult.from(lessBlackjackCards);
 
 		assertThat(blackjackResult.isBlackjackOrMore()).isFalse();
+	}
+
+	@DisplayName("21 초과")
+	@Test
+	void isOverBlackjackTrue() {
+		BlackjackResult blackjackResult = BlackjackResult.from(overBlackjackCards);
+		assertThat(blackjackResult.isOverBlackjack()).isTrue();
+	}
+
+	@DisplayName("21 이하")
+	@Test
+	void isOverBlackjackFalse() {
+		BlackjackResult blackjackResult = BlackjackResult.from(blackjackCards);
+
+		assertThat(blackjackResult.isOverBlackjack()).isFalse();
 	}
 
 	@DisplayName("17 이상")
