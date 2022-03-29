@@ -1,7 +1,10 @@
 package blackjack.minhoyoo.domain;
 
 public class MoneyCalculator {
-	public static Money calculate(Player player) {
+	private MoneyCalculator() {
+	}
+
+	public static Money calculate(Player player, boolean isDealerBlackjack) {
 		BlackjackResult blackjackResult = player.calculateResult();
 		if(blackjackResult.isFirstBlackJack()) {
 			return player.getMoney().addHalf();
