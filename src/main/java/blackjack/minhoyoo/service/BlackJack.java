@@ -33,8 +33,16 @@ public class BlackJack {
 
 		updateMoney(cardOwners);
 
-		ResultView.printMessage("\n## 최종 수익");
 		printProfitStatus(cardOwners);
+	}
+
+	private Names getNames() {
+		try {
+			return Names.from(InputView.getNames());
+		} catch (IllegalArgumentException e) {
+			ResultView.printMessage(e.getMessage());
+			return getNames();
+		}
 	}
 
 	private List<Player> getPlayers(Names names) {
@@ -49,15 +57,6 @@ public class BlackJack {
 		} catch (IllegalArgumentException e) {
 			ResultView.printMessage(e.getMessage());
 			return getMoney(name);
-		}
-	}
-
-	private Names getNames() {
-		try {
-			return Names.from(InputView.getNames());
-		} catch (IllegalArgumentException e) {
-			ResultView.printMessage(e.getMessage());
-			return getNames();
 		}
 	}
 
@@ -121,6 +120,7 @@ public class BlackJack {
 	}
 
 	private void printProfitStatus(CardOwners cardOwners) {
+		ResultView.printMessage("\n## 최종 수익");
 		String message = ProfitMessages.from(cardOwners).getMessage();
 		ResultView.printMessage(message);
 	}

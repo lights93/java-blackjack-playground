@@ -8,6 +8,8 @@ import java.util.Objects;
 public class Cards {
 	private static final int MAX_SUM = 21;
 	private static final int ACE_DIFF = 10;
+	public static final int MIN_ACE_COUNT = 1;
+	public static final int ACE_DECREASE_VALUE = 1;
 	private final List<Card> elements;
 
 	private Cards(List<Card> elements) {
@@ -27,17 +29,15 @@ public class Cards {
 	}
 
 	public int calculateResult() {
-		int sum = calculateSum();
+		return calculateAceDiff(calculateSum(), aceCount());
+	}
 
-		if (sum <= MAX_SUM) {
+	private int calculateAceDiff(int sum, int aceCount) {
+		if (aceCount < MIN_ACE_COUNT || sum <= MAX_SUM) {
 			return sum;
 		}
 
-		if (containsAce()) {
-			return sum - ACE_DIFF;
-		}
-
-		return sum;
+		return calculateAceDiff(sum - ACE_DIFF, aceCount - ACE_DECREASE_VALUE);
 	}
 
 	private int calculateSum() {
@@ -46,9 +46,10 @@ public class Cards {
 			.sum();
 	}
 
-	private boolean containsAce() {
-		return elements.stream()
-			.anyMatch(Card::isAce);
+	private int aceCount() {
+		return (int)elements.stream()
+			.filter(Card::isAce)
+			.count();
 	}
 
 	public int size() {

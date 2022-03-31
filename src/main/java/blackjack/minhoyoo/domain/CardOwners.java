@@ -52,9 +52,14 @@ public class CardOwners {
 	}
 
 	private void updatePlayerMoney(BlackjackResult dealerResult, Player player) {
-		if (dealerResult.isBiggerThan(player.calculateResult())) {
+		BlackjackResult playerResult = player.calculateResult();
+
+		if (dealerResult.isBiggerThan(playerResult)) {
 			player.lose();
-		} else if(!player.calculateResult().isBiggerThan(dealerResult)) {
+			return;
+		}
+
+		if (!playerResult.isBiggerThan(dealerResult)) {
 			player.updateMoney(Money.ZERO);
 		}
 	}
@@ -66,9 +71,9 @@ public class CardOwners {
 	}
 
 	private boolean isPlayerBlackjack(BlackjackResult dealerResult) {
-
 		boolean hasBlackJack = players.stream()
 			.anyMatch(player -> player.calculateResult().isBlackjack());
+
 		return !dealerResult.isBlackjack() && hasBlackJack;
 	}
 
