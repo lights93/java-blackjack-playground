@@ -18,7 +18,7 @@ class CardTest {
 	@DisplayName("ACE가 아닌지 확인")
 	@Test
 	void isAceFalse() {
-		Card card = new Card(CardNumber.ONE, Suit.SPADE);
+		Card card = new Card(CardNumber.TWO, Suit.SPADE);
 
 		assertThat(card.isAce()).isFalse();
 	}

@@ -14,13 +14,13 @@ class DeckTest {
 	void draw() {
 		Deck deck = new Deck(() -> {
 			Deque<Card> cards = new LinkedList<>();
-			cards.push(new Card(CardNumber.ONE, Suit.SPADE));
+			cards.push(new Card(CardNumber.ACE, Suit.SPADE));
 			cards.push(new Card(CardNumber.TWO, Suit.SPADE));
 
 			return cards;
 		});
 
 		assertThat(deck.draw()).isEqualTo(new Card(CardNumber.TWO, Suit.SPADE));
-		assertThat(deck.draw()).isEqualTo(new Card(CardNumber.ONE, Suit.SPADE));
+		assertThat(deck.draw()).isEqualTo(new Card(CardNumber.ACE, Suit.SPADE));
 	}
 }

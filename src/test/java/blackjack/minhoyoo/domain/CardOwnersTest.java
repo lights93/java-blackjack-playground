@@ -21,7 +21,7 @@ class CardOwnersTest {
 	void setUp() {
 		blackjackCards = Cards.empty();
 		blackjackCards.addCard(new Card(CardNumber.KING, Suit.SPADE));
-		blackjackCards.addCard(new Card(CardNumber.ONE, Suit.SPADE));
+		blackjackCards.addCard(new Card(CardNumber.ACE, Suit.SPADE));
 		blackjackCards.addCard(new Card(CardNumber.JACK, Suit.SPADE));
 
 		firstBlackjackCards = Cards.empty();
@@ -42,7 +42,7 @@ class CardOwnersTest {
 
 		Deck deck = new Deck(() -> {
 			Deque<Card> cards = new LinkedList<>();
-			cards.push(new Card(CardNumber.ONE, Suit.SPADE));
+			cards.push(new Card(CardNumber.ACE, Suit.SPADE));
 			cards.push(new Card(CardNumber.TWO, Suit.SPADE));
 
 			return cards;
@@ -53,7 +53,7 @@ class CardOwnersTest {
 		Player player = new Player(Name.from("pobi"), Money.from("1"));
 		player.addCard(new Card(CardNumber.TWO, Suit.SPADE));
 		Dealer dealer = new Dealer();
-		dealer.addCard(new Card(CardNumber.ONE, Suit.SPADE));
+		dealer.addCard(new Card(CardNumber.ACE, Suit.SPADE));
 
 		CardOwners expected = new CardOwners(Collections.singletonList(player), dealer);
 
@@ -122,7 +122,7 @@ class CardOwnersTest {
 		Player player1 = new Player(Name.from("pobi"), Money.from("100"));
 
 		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
-		player1.addCard(new Card(CardNumber.ONE, Suit.SPADE));
+		player1.addCard(new Card(CardNumber.TWO, Suit.SPADE));
 
 		Player player2 = new Player(Name.from("minho"), Money.from("100"));
 
@@ -153,7 +153,7 @@ class CardOwnersTest {
 		Player player1 = new Player(Name.from("pobi"), Money.from("100"));
 
 		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
-		player1.addCard(new Card(CardNumber.ONE, Suit.SPADE));
+		player1.addCard(new Card(CardNumber.TWO, Suit.SPADE));
 
 		Player player2 = new Player(Name.from("minho"), Money.from("200"));
 

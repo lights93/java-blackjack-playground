@@ -15,7 +15,7 @@ class BlackjackResultTest {
 	void setUp() {
 		blackjackCards = Cards.empty();
 		blackjackCards.addCard(new Card(CardNumber.KING, Suit.SPADE));
-		blackjackCards.addCard(new Card(CardNumber.ONE, Suit.SPADE));
+		blackjackCards.addCard(new Card(CardNumber.ACE, Suit.SPADE));
 		blackjackCards.addCard(new Card(CardNumber.JACK, Suit.SPADE));
 
 		firstBlackjackCards = Cards.empty();

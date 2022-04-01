@@ -21,8 +21,8 @@ class CardsTest {
 	@Test
 	void calculateWithAceValueIsOne() {
 		Cards cards = Cards.empty();
-		cards.addCard(new Card(CardNumber.KING, Suit.SPADE));
-		cards.addCard(new Card(CardNumber.ONE, Suit.SPADE));
+		cards.addCard(new Card(CardNumber.NINE, Suit.SPADE));
+		cards.addCard(new Card(CardNumber.TWO, Suit.SPADE));
 		cards.addCard(new Card(CardNumber.ACE, Suit.SPADE));
 
 		assertThat(cards.calculateResult()).isEqualTo(12);
