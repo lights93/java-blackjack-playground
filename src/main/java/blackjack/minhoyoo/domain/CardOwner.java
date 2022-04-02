@@ -4,13 +4,17 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class CardOwner {
-	private final Cards cards = Cards.empty();
+	private final Cards cards;
 	private Money money;
 
-	protected CardOwner(Money money) {
-		if(money == null) {
+	protected CardOwner(Cards cards, Money money) {
+		if (money == null) {
 			throw new IllegalArgumentException("금액 입력이 필요합니다.");
 		}
+		if (cards == null) {
+			throw new IllegalArgumentException("카드가 필요합니다.");
+		}
+		this.cards = cards;
 		this.money = money;
 	}
 

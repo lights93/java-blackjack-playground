@@ -1,9 +1,11 @@
 package blackjack.minhoyoo.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Cards {
 	private static final int MAX_SUM = 21;
@@ -18,6 +20,10 @@ public class Cards {
 
 	public static Cards empty() {
 		return new Cards(new ArrayList<>());
+	}
+
+	public static Cards of(Card... cards) {
+		return new Cards(Arrays.stream(cards).collect(Collectors.toList()));
 	}
 
 	public void addCard(Card card) {

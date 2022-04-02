@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import blackjack.minhoyoo.domain.BlackjackResult;
 import blackjack.minhoyoo.domain.CardOwner;
 import blackjack.minhoyoo.domain.CardOwners;
+import blackjack.minhoyoo.domain.Cards;
 import blackjack.minhoyoo.domain.Dealer;
 import blackjack.minhoyoo.domain.Deck;
 import blackjack.minhoyoo.domain.Money;
@@ -20,14 +21,13 @@ import blackjack.minhoyoo.view.InputView;
 import blackjack.minhoyoo.view.ResultView;
 
 public class BlackJack {
-	private static final Deck deck = new Deck(new RandomShuffleStrategy());
+	private final Deck deck = new Deck(new RandomShuffleStrategy());
 
 	public void start() {
 		List<Player> players = getPlayers(getNames());
-		Dealer dealer = new Dealer();
+		Dealer dealer = new Dealer(drawInitCards());
 		CardOwners cardOwners = new CardOwners(players, dealer);
-
-		initCards(cardOwners);
+		printStatus(cardOwners);
 
 		updateCards(players, dealer);
 
@@ -46,9 +46,14 @@ public class BlackJack {
 	}
 
 	private List<Player> getPlayers(Names names) {
+
 		return names.getValues().stream()
-			.map(name -> new Player(name, getMoney(name.getValue())))
+			.map(name -> new Player(name, drawInitCards(), getMoney(name.getValue())))
 			.collect(Collectors.toList());
+	}
+
+	private Cards drawInitCards() {
+		return Cards.of(deck.draw(), deck.draw());
 	}
 
 	private Money getMoney(String name) {
@@ -58,12 +63,6 @@ public class BlackJack {
 			ResultView.printMessage(e.getMessage());
 			return getMoney(name);
 		}
-	}
-
-	private void initCards(CardOwners cardOwners) {
-		cardOwners.drawCard(deck);
-		cardOwners.drawCard(deck);
-		printStatus(cardOwners);
 	}
 
 	private void updateCards(List<Player> players, Dealer dealer) {

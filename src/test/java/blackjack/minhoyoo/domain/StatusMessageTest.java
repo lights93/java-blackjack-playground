@@ -10,7 +10,7 @@ class StatusMessageTest {
 	@DisplayName("player일 때 메시지 생성")
 	@Test
 	void getMessageWhenPlayer() {
-		Player player = new Player(Name.from("pobi"), Money.from("1"));
+		Player player = new Player(Name.from("pobi"), Cards.empty(), Money.from("1"));
 		player.addCard(new Card(CardNumber.TWO, Suit.HEART));
 		player.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
 
@@ -22,7 +22,7 @@ class StatusMessageTest {
 	@DisplayName("딜러일 때 메시지 생성")
 	@Test
 	void getMessageWhenDealer() {
-		Dealer dealer = new Dealer();
+		Dealer dealer = new Dealer(Cards.empty());
 		dealer.addCard(new Card(CardNumber.TWO, Suit.HEART));
 		dealer.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
 
@@ -34,7 +34,7 @@ class StatusMessageTest {
 	@DisplayName("player일 때 메시지 결과와 함께 생성")
 	@Test
 	void getMessageWithResultWhenPlayer() {
-		Player player = new Player(Name.from("pobi"), Money.from("1"));
+		Player player = new Player(Name.from("pobi"), Cards.empty(), Money.from("1"));
 		player.addCard(new Card(CardNumber.TWO, Suit.HEART));
 		player.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
 
@@ -46,7 +46,7 @@ class StatusMessageTest {
 	@DisplayName("딜러일 때 메시지 생성")
 	@Test
 	void getMessageWithResulWhenDealer() {
-		Dealer dealer = new Dealer();
+		Dealer dealer = new Dealer(Cards.empty());
 		dealer.addCard(new Card(CardNumber.TWO, Suit.HEART));
 		dealer.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
 
@@ -58,7 +58,7 @@ class StatusMessageTest {
 	@DisplayName("잘못된 타입으로 들어올 때 에러")
 	@Test
 	void getMessageError() {
-		CardOwner cardOwner = new CardOwner(Money.ZERO) {
+		CardOwner cardOwner = new CardOwner(Cards.empty(), Money.ZERO) {
 		};
 
 		assertThatExceptionOfType(IllegalArgumentException.class)

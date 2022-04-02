@@ -38,7 +38,8 @@ class CardOwnersTest {
 	@Test
 	void drawCard() {
 		CardOwners cardOwners = new CardOwners(
-			Collections.singletonList(new Player(Name.from("pobi"), Money.from("1"))), new Dealer());
+			Collections.singletonList(new Player(Name.from("pobi"), Cards.empty(), Money.from("1"))),
+			new Dealer(Cards.empty()));
 
 		Deck deck = new Deck(() -> {
 			Deque<Card> cards = new LinkedList<>();
@@ -50,9 +51,9 @@ class CardOwnersTest {
 
 		cardOwners.drawCard(deck);
 
-		Player player = new Player(Name.from("pobi"), Money.from("1"));
+		Player player = new Player(Name.from("pobi"), Cards.empty(), Money.from("1"));
 		player.addCard(new Card(CardNumber.TWO, Suit.SPADE));
-		Dealer dealer = new Dealer();
+		Dealer dealer = new Dealer(Cards.empty());
 		dealer.addCard(new Card(CardNumber.ACE, Suit.SPADE));
 
 		CardOwners expected = new CardOwners(Collections.singletonList(player), dealer);
@@ -63,17 +64,17 @@ class CardOwnersTest {
 	@DisplayName("처음 두 장의 카드 합이 21일 경우 블랙잭이 되면 베팅 금액의 1.5 배를 딜러에게 받는다")
 	@Test
 	void playerFirstBlackJackWin() {
-		Player player1 = new Player(Name.from("pobi"), Money.from("100"));
+		Player player1 = new Player(Name.from("pobi"), Cards.empty(), Money.from("100"));
 
 		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
 		player1.addCard(new Card(CardNumber.ACE, Suit.SPADE));
 
-		Player player2 = new Player(Name.from("minho"), Money.from("100"));
+		Player player2 = new Player(Name.from("minho"), Cards.empty(), Money.from("100"));
 
 		player2.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
 		player2.addCard(new Card(CardNumber.KING, Suit.SPADE));
 
-		Dealer dealer = new Dealer();
+		Dealer dealer = new Dealer(Cards.empty());
 
 		CardOwners cardOwners = new CardOwners(
 			Arrays.asList(player1, player2), dealer);
@@ -90,17 +91,17 @@ class CardOwnersTest {
 	@DisplayName("딜러와 플레이어가 모두 동시에 블랙잭인 경우 플레이어는 베팅한 금액을 돌려받는다.")
 	@Test
 	void allBlackjack() {
-		Player player1 = new Player(Name.from("pobi"), Money.from("100"));
+		Player player1 = new Player(Name.from("pobi"), Cards.empty(), Money.from("100"));
 
 		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
 		player1.addCard(new Card(CardNumber.ACE, Suit.SPADE));
 
-		Player player2 = new Player(Name.from("minho"), Money.from("100"));
+		Player player2 = new Player(Name.from("minho"), Cards.empty(), Money.from("100"));
 
 		player2.addCard(new Card(CardNumber.KING, Suit.HEART));
 		player2.addCard(new Card(CardNumber.ACE, Suit.HEART));
 
-		Dealer dealer = new Dealer();
+		Dealer dealer = new Dealer(Cards.empty());
 		dealer.addCard(new Card(CardNumber.KING, Suit.CLUB));
 		dealer.addCard(new Card(CardNumber.ACE, Suit.CLUB));
 
@@ -119,18 +120,18 @@ class CardOwnersTest {
 	@DisplayName("딜러가 21을 초과하면 그 시점까지 남아 있던 플레이어들은 가지고 있는 패에 상관 없이 승리해 베팅 금액을 받는다.")
 	@Test
 	void isDealerOverBlackjack() {
-		Player player1 = new Player(Name.from("pobi"), Money.from("100"));
+		Player player1 = new Player(Name.from("pobi"), Cards.empty(), Money.from("100"));
 
 		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
 		player1.addCard(new Card(CardNumber.TWO, Suit.SPADE));
 
-		Player player2 = new Player(Name.from("minho"), Money.from("100"));
+		Player player2 = new Player(Name.from("minho"), Cards.empty(), Money.from("100"));
 
 		player2.addCard(new Card(CardNumber.KING, Suit.HEART));
 		player2.addCard(new Card(CardNumber.TWO, Suit.HEART));
 		player2.addCard(new Card(CardNumber.QUEEN, Suit.HEART));
 
-		Dealer dealer = new Dealer();
+		Dealer dealer = new Dealer(Cards.empty());
 		dealer.addCard(new Card(CardNumber.KING, Suit.CLUB));
 		dealer.addCard(new Card(CardNumber.QUEEN, Suit.CLUB));
 		dealer.addCard(new Card(CardNumber.TWO, Suit.CLUB));
@@ -150,17 +151,17 @@ class CardOwnersTest {
 	@DisplayName("블랙잭 없는 일반적인 계산")
 	@Test
 	void updateMoney() {
-		Player player1 = new Player(Name.from("pobi"), Money.from("100"));
+		Player player1 = new Player(Name.from("pobi"), Cards.empty(), Money.from("100"));
 
 		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
 		player1.addCard(new Card(CardNumber.TWO, Suit.SPADE));
 
-		Player player2 = new Player(Name.from("minho"), Money.from("200"));
+		Player player2 = new Player(Name.from("minho"), Cards.empty(), Money.from("200"));
 
 		player2.addCard(new Card(CardNumber.KING, Suit.HEART));
 		player2.addCard(new Card(CardNumber.QUEEN, Suit.HEART));
 
-		Dealer dealer = new Dealer();
+		Dealer dealer = new Dealer(Cards.empty());
 		dealer.addCard(new Card(CardNumber.KING, Suit.CLUB));
 		dealer.addCard(new Card(CardNumber.EIGHT, Suit.CLUB));
 

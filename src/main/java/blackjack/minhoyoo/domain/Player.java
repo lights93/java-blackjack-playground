@@ -5,9 +5,9 @@ import java.util.Objects;
 public class Player extends CardOwner {
 	private final Name name;
 
-	public Player(Name name, Money money) {
-		super(money);
-		if(name == null) {
+	public Player(Name name, Cards cards, Money money) {
+		super(cards, money);
+		if (name == null) {
 			throw new IllegalArgumentException("플레이어에 필요한 값이 없습니다.");
 		}
 		this.name = name;

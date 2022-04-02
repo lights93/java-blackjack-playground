@@ -11,11 +11,11 @@ class StatusMessagesTest {
 	@DisplayName("메시지 여러 건 생성")
 	@Test
 	void getMessage() {
-		Player player = new Player(Name.from("pobi"), Money.from("1"));
+		Player player = new Player(Name.from("pobi"), Cards.empty(),Money.from("1"));
 		player.addCard(new Card(CardNumber.TWO, Suit.HEART));
 		player.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
 
-		Dealer dealer = new Dealer();
+		Dealer dealer = new Dealer(Cards.empty());
 		dealer.addCard(new Card(CardNumber.TWO, Suit.HEART));
 		dealer.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
 
