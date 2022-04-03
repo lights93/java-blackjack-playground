@@ -1,0 +1,68 @@
+package blackjack.minhoyoo.domain.owner;
+
+import java.util.List;
+import java.util.Objects;
+
+import blackjack.minhoyoo.domain.BlackjackResult;
+import blackjack.minhoyoo.domain.Money;
+import blackjack.minhoyoo.domain.card.Card;
+import blackjack.minhoyoo.domain.card.Cards;
+
+public abstract class CardOwner {
+	private final Cards cards;
+	private Money money;
+
+	protected CardOwner(Cards cards, Money money) {
+		if (money == null) {
+			throw new IllegalArgumentException("금액 입력이 필요합니다.");
+		}
+		if (cards == null) {
+			throw new IllegalArgumentException("카드가 필요합니다.");
+		}
+		this.cards = cards;
+		this.money = money;
+	}
+
+	public void addCard(Card card) {
+		cards.addCard(card);
+	}
+
+	public Money getMoney() {
+		return money;
+	}
+
+	public List<Card> getCards() {
+		return cards.getAll();
+	}
+
+	public BlackjackResult calculateResult() {
+		return BlackjackResult.from(cards);
+	}
+
+	public void updateFirstBlackJackMoney() {
+		money = money.addHalf();
+	}
+
+	public void updateMoney(Money money) {
+		this.money = money;
+	}
+
+	public void lose() {
+		this.money = money.reverse();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		CardOwner cardOwner = (CardOwner)o;
+		return Objects.equals(cards, cardOwner.cards);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cards);
+	}
+}

@@ -6,6 +6,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import blackjack.minhoyoo.domain.card.Card;
+import blackjack.minhoyoo.domain.card.CardNumber;
+import blackjack.minhoyoo.domain.card.Cards;
+import blackjack.minhoyoo.domain.card.Suit;
+
 class BlackjackResultTest {
 	private Cards blackjackCards;
 	private Cards firstBlackjackCards;

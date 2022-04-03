@@ -8,6 +8,10 @@ import java.util.LinkedList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import blackjack.minhoyoo.domain.card.Card;
+import blackjack.minhoyoo.domain.card.CardNumber;
+import blackjack.minhoyoo.domain.card.Suit;
+
 class DeckTest {
 	@DisplayName("카드 뽑기")
 	@Test

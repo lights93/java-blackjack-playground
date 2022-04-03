@@ -2,6 +2,8 @@ package blackjack.minhoyoo.domain;
 
 import java.util.Deque;
 
+import blackjack.minhoyoo.domain.card.Card;
+
 public class Deck {
 	private final Deque<Card> cards;
 
