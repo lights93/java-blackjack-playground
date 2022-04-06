@@ -12,6 +12,8 @@ import blackjack.minhoyoo.domain.card.Card;
 import blackjack.minhoyoo.domain.card.CardNumber;
 import blackjack.minhoyoo.domain.card.Cards;
 import blackjack.minhoyoo.domain.card.Suit;
+import blackjack.minhoyoo.domain.state.State;
+import blackjack.minhoyoo.domain.state.StateFactory;
 
 class CardOwnerTest {
 	@DisplayName("카드 추가 테스트")
@@ -26,9 +28,9 @@ class CardOwnerTest {
 	@DisplayName("베팅금 값 비어있을 때 에러")
 	@Test
 	void constructErrorWithMoneyNull() {
-		Cards cards = Cards.empty();
+		State state = StateFactory.create(Cards.empty());
 		assertThatExceptionOfType(IllegalArgumentException.class)
-			.isThrownBy(() -> new CardOwner(cards, null) {
+			.isThrownBy(() -> new CardOwner(state, null) {
 			})
 			.withMessage("금액 입력이 필요합니다.");
 	}
@@ -39,6 +41,6 @@ class CardOwnerTest {
 		assertThatExceptionOfType(IllegalArgumentException.class)
 			.isThrownBy(() -> new CardOwner(null, Money.ZERO) {
 			})
-			.withMessage("카드가 필요합니다.");
+			.withMessage("상태값이 필요합니다.");
 	}
 }

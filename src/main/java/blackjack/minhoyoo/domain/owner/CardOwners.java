@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import blackjack.minhoyoo.domain.BlackjackResult;
 import blackjack.minhoyoo.domain.Deck;
 import blackjack.minhoyoo.domain.Money;
 
@@ -30,69 +29,43 @@ public class CardOwners {
 	}
 
 	public void updateMoney() {
-		BlackjackResult dealerResult = dealer.calculateResult();
-
-		if (allBlackJack(dealerResult)) {
+		if (allBlackjack()) {
+			players.forEach(
+				player -> player.updateMoney(Money.ZERO)
+			);
 			return;
 		}
 
-		updateMoney(dealerResult);
-		Money newSum = calculateSum();
-
-		dealer.updateMoney(newSum.reverse());
-	}
-
-	private void updateMoney(BlackjackResult dealerResult) {
-		if (dealerResult.isOverBlackjack()) {
+		if(dealer.isBust()) {
+			updateDealerMoney();
 			return;
 		}
 
-		if (isPlayerBlackjack(dealerResult)) {
-			players.forEach(this::updateFirstBlackJack);
-			return;
-		}
+		int maxSum = players.stream()
+			.mapToInt(CardOwner::calculateResult)
+			.max()
+			.orElse(0);
 
-		players.forEach(player -> updatePlayerMoney(dealerResult, player));
+		players.forEach(player -> {
+			if(player.calculateResult() == maxSum) {
+				player.win();
+			} else {
+				player.lose();
+			}
+		});
+
+		updateDealerMoney();
 	}
 
-	private void updatePlayerMoney(BlackjackResult dealerResult, Player player) {
-		BlackjackResult playerResult = player.calculateResult();
-
-		if (dealerResult.isBiggerThan(playerResult)) {
-			player.lose();
-			return;
-		}
-
-		if (!playerResult.isBiggerThan(dealerResult)) {
-			player.updateMoney(Money.ZERO);
-		}
-	}
-
-	private boolean allBlackJack(BlackjackResult dealerResult) {
-		boolean hasNotBlackJack = players.stream()
-			.anyMatch(player -> !player.calculateResult().isBlackjack());
-		return dealerResult.isBlackjack() && !hasNotBlackJack;
-	}
-
-	private boolean isPlayerBlackjack(BlackjackResult dealerResult) {
-		boolean hasBlackJack = players.stream()
-			.anyMatch(player -> player.calculateResult().isBlackjack());
-
-		return !dealerResult.isBlackjack() && hasBlackJack;
-	}
-
-	private void updateFirstBlackJack(Player player) {
-		if (player.calculateResult().isFirstBlackJack()) {
-			player.updateFirstBlackJackMoney();
-		} else {
-			player.lose();
-		}
-	}
-
-	private Money calculateSum() {
-		return players.stream()
+	private void updateDealerMoney() {
+		Money playerSum = players.stream()
 			.map(CardOwner::getMoney)
-			.reduce(Money.ZERO, (Money::add));
+			.reduce(Money.ZERO, Money::add);
+		dealer.updateMoney(playerSum.reverse());
+	}
+
+	private boolean allBlackjack() {
+		return dealer.isBlackjack() && players.stream().allMatch(CardOwner::isBlackjack);
 	}
 
 	@Override

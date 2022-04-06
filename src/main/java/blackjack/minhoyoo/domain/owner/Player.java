@@ -4,12 +4,14 @@ import java.util.Objects;
 
 import blackjack.minhoyoo.domain.Money;
 import blackjack.minhoyoo.domain.card.Cards;
+import blackjack.minhoyoo.domain.state.StateFactory;
 
 public class Player extends CardOwner {
 	private final Name name;
 
 	public Player(Name name, Cards cards, Money money) {
-		super(cards, money);
+		// TODO
+		super(StateFactory.create(cards), money);
 		if (name == null) {
 			throw new IllegalArgumentException("플레이어에 필요한 값이 없습니다.");
 		}
@@ -35,5 +37,9 @@ public class Player extends CardOwner {
 	@Override
 	public int hashCode() {
 		return Objects.hash(super.hashCode(), name);
+	}
+
+	public void lose() {
+		money = money.reverse();
 	}
 }

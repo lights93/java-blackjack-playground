@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 public class Cards {
 	private static final int MAX_SUM = 21;
+	private static final int DEALER_MIN_SUM = 16;
 	private static final int ACE_DIFF = 10;
 	public static final int MIN_ACE_COUNT = 1;
 	public static final int ACE_DECREASE_VALUE = 1;
@@ -60,6 +61,16 @@ public class Cards {
 
 	public int size() {
 		return elements.size();
+	}
+
+	public boolean isBust() {
+		int result = calculateResult();
+		return result > MAX_SUM;
+	}
+
+	public boolean isDealerEnd() {
+		int result = calculateResult();
+		return result > DEALER_MIN_SUM;
 	}
 
 	@Override

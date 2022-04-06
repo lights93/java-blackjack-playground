@@ -14,6 +14,8 @@ import blackjack.minhoyoo.domain.owner.CardOwner;
 import blackjack.minhoyoo.domain.owner.Dealer;
 import blackjack.minhoyoo.domain.owner.Name;
 import blackjack.minhoyoo.domain.owner.Player;
+import blackjack.minhoyoo.domain.state.State;
+import blackjack.minhoyoo.domain.state.StateFactory;
 
 class StatusMessageTest {
 
@@ -68,7 +70,8 @@ class StatusMessageTest {
 	@DisplayName("잘못된 타입으로 들어올 때 에러")
 	@Test
 	void getMessageError() {
-		CardOwner cardOwner = new CardOwner(Cards.empty(), Money.ZERO) {
+		State state = StateFactory.create(Cards.empty());
+		CardOwner cardOwner = new CardOwner(state, Money.ZERO) {
 		};
 
 		assertThatExceptionOfType(IllegalArgumentException.class)

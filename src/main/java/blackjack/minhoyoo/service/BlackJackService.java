@@ -16,11 +16,10 @@ import blackjack.minhoyoo.domain.owner.Dealer;
 import blackjack.minhoyoo.domain.owner.Names;
 import blackjack.minhoyoo.domain.owner.Player;
 import blackjack.minhoyoo.domain.shuffle.RandomShuffleStrategy;
-import blackjack.minhoyoo.domain.state.State;
 import blackjack.minhoyoo.view.InputView;
 import blackjack.minhoyoo.view.ResultView;
 
-public class BlackJack {
+public class BlackJackService {
 	private final Deck deck = new Deck(new RandomShuffleStrategy());
 
 	public void start() {
@@ -30,9 +29,7 @@ public class BlackJack {
 		printStatus(cardOwners);
 
 		updateCards(players, dealer);
-
 		updateMoney(cardOwners);
-
 		printProfitStatus(cardOwners);
 	}
 
@@ -46,7 +43,6 @@ public class BlackJack {
 	}
 
 	private List<Player> getPlayers(Names names) {
-
 		return names.getValues().stream()
 			.map(name -> new Player(name, drawInitCards(), getMoney(name.getValue())))
 			.collect(Collectors.toList());
@@ -71,9 +67,7 @@ public class BlackJack {
 	}
 
 	private void setCards(Player player) {
-		State state = player.getState();
-
-		if (state.isFinished()) {
+		if (player.isFinished()) {
 			return;
 		}
 
@@ -82,6 +76,8 @@ public class BlackJack {
 			player.addCard(deck.draw());
 			printStatus(player);
 			setCards(player);
+		} else {
+			player.stay();
 		}
 	}
 
@@ -95,10 +91,7 @@ public class BlackJack {
 	}
 
 	private void drawDealerCards(Dealer dealer) {
-		State state = dealer.getState();
-		// TODO
-		int result = state.cards().calculateResult();
-		if(result <= 16) {
+		if(dealer.isFinished()) {
 			ResultView.printMessage("딜러는 16이하라 한장의 카드를 더 받았습니다.");
 			dealer.addCard(deck.draw());
 			drawDealerCards(dealer);

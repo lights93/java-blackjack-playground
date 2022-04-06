@@ -23,6 +23,7 @@ class CardOwnersTest {
 	private Cards blackjackCards;
 	private Cards firstBlackjackCards;
 	private Cards lessBlackjackCards;
+	private Cards overBlackjackCards;
 
 	@BeforeEach
 	void setUp() {
@@ -39,6 +40,8 @@ class CardOwnersTest {
 		lessBlackjackCards.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
 		lessBlackjackCards.addCard(new Card(CardNumber.TWO, Suit.SPADE));
 		lessBlackjackCards.addCard(new Card(CardNumber.JACK, Suit.SPADE));
+
+		overBlackjackCards = Cards.of(new Card(CardNumber.KING, Suit.HEART), new Card(CardNumber.QUEEN, Suit.HEART), new Card(CardNumber.TWO, Suit.HEART));
 	}
 
 	@DisplayName("전체 카드 뽑기")
@@ -71,20 +74,13 @@ class CardOwnersTest {
 	@DisplayName("처음 두 장의 카드 합이 21일 경우 블랙잭이 되면 베팅 금액의 1.5 배를 딜러에게 받는다")
 	@Test
 	void playerFirstBlackJackWin() {
-		Player player1 = new Player(Name.from("pobi"), Cards.empty(), Money.from("100"));
+		Player player1 = new Player(Name.from("pobi"), firstBlackjackCards, Money.from("100"));
 
-		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
-		player1.addCard(new Card(CardNumber.ACE, Suit.SPADE));
+		Player player2 = new Player(Name.from("minho"), lessBlackjackCards, Money.from("100"));
 
-		Player player2 = new Player(Name.from("minho"), Cards.empty(), Money.from("100"));
+		Dealer dealer = new Dealer(lessBlackjackCards);
 
-		player2.addCard(new Card(CardNumber.EIGHT, Suit.SPADE));
-		player2.addCard(new Card(CardNumber.KING, Suit.SPADE));
-
-		Dealer dealer = new Dealer(Cards.empty());
-
-		CardOwners cardOwners = new CardOwners(
-			Arrays.asList(player1, player2), dealer);
+		CardOwners cardOwners = new CardOwners(Arrays.asList(player1, player2), dealer);
 
 		cardOwners.updateMoney();
 
@@ -98,19 +94,11 @@ class CardOwnersTest {
 	@DisplayName("딜러와 플레이어가 모두 동시에 블랙잭인 경우 플레이어는 베팅한 금액을 돌려받는다.")
 	@Test
 	void allBlackjack() {
-		Player player1 = new Player(Name.from("pobi"), Cards.empty(), Money.from("100"));
+		Player player1 = new Player(Name.from("pobi"), firstBlackjackCards, Money.from("100"));
 
-		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
-		player1.addCard(new Card(CardNumber.ACE, Suit.SPADE));
+		Player player2 = new Player(Name.from("minho"), firstBlackjackCards, Money.from("100"));
 
-		Player player2 = new Player(Name.from("minho"), Cards.empty(), Money.from("100"));
-
-		player2.addCard(new Card(CardNumber.KING, Suit.HEART));
-		player2.addCard(new Card(CardNumber.ACE, Suit.HEART));
-
-		Dealer dealer = new Dealer(Cards.empty());
-		dealer.addCard(new Card(CardNumber.KING, Suit.CLUB));
-		dealer.addCard(new Card(CardNumber.ACE, Suit.CLUB));
+		Dealer dealer = new Dealer(firstBlackjackCards);
 
 		CardOwners cardOwners = new CardOwners(
 			Arrays.asList(player1, player2), dealer);
@@ -118,8 +106,8 @@ class CardOwnersTest {
 		cardOwners.updateMoney();
 
 		assertAll(
-			() -> assertThat(player1.getMoney()).isEqualTo(Money.from("100")),
-			() -> assertThat(player2.getMoney()).isEqualTo(Money.from("100")),
+			() -> assertThat(player1.getMoney()).isEqualTo(Money.from("0")),
+			() -> assertThat(player2.getMoney()).isEqualTo(Money.from("0")),
 			() -> assertThat(dealer.getMoney()).isEqualTo(Money.from("0"))
 		);
 	}
@@ -127,21 +115,11 @@ class CardOwnersTest {
 	@DisplayName("딜러가 21을 초과하면 그 시점까지 남아 있던 플레이어들은 가지고 있는 패에 상관 없이 승리해 베팅 금액을 받는다.")
 	@Test
 	void isDealerOverBlackjack() {
-		Player player1 = new Player(Name.from("pobi"), Cards.empty(), Money.from("100"));
+		Player player1 = new Player(Name.from("pobi"), lessBlackjackCards, Money.from("100"));
 
-		player1.addCard(new Card(CardNumber.KING, Suit.SPADE));
-		player1.addCard(new Card(CardNumber.TWO, Suit.SPADE));
+		Player player2 = new Player(Name.from("minho"), overBlackjackCards, Money.from("100"));
 
-		Player player2 = new Player(Name.from("minho"), Cards.empty(), Money.from("100"));
-
-		player2.addCard(new Card(CardNumber.KING, Suit.HEART));
-		player2.addCard(new Card(CardNumber.TWO, Suit.HEART));
-		player2.addCard(new Card(CardNumber.QUEEN, Suit.HEART));
-
-		Dealer dealer = new Dealer(Cards.empty());
-		dealer.addCard(new Card(CardNumber.KING, Suit.CLUB));
-		dealer.addCard(new Card(CardNumber.QUEEN, Suit.CLUB));
-		dealer.addCard(new Card(CardNumber.TWO, Suit.CLUB));
+		Dealer dealer = new Dealer(overBlackjackCards);
 
 		CardOwners cardOwners = new CardOwners(
 			Arrays.asList(player1, player2), dealer);

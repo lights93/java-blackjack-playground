@@ -2,13 +2,13 @@ package blackjack.minhoyoo.domain.state;
 
 import blackjack.minhoyoo.domain.card.Cards;
 
-public class Blackjack extends Finished{
-	public Blackjack(Cards cards) {
+public class DealerEnd extends Finished {
+	protected DealerEnd(Cards cards) {
 		super(cards);
 	}
 
 	@Override
 	public double earningRate() {
-		return 1.5;
+		return 1;
 	}
 }

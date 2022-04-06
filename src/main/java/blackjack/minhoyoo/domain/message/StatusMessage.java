@@ -46,7 +46,8 @@ public class StatusMessage {
 		}
 
 		String message = OWNER_TO_MESSAGE_MAP.get(owner.getClass()).apply(owner);
-		return new StatusMessage(message, owner.calculateResult().getResult());
+		// TODO
+		return new StatusMessage(message, owner.getState().cards().calculateResult());
 	}
 
 	public String getMessage() {
