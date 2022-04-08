@@ -1,5 +1,7 @@
 package blackjack.minhoyoo.domain.state;
 
+import java.util.Collections;
+
 import blackjack.minhoyoo.domain.Money;
 import blackjack.minhoyoo.domain.card.Card;
 import blackjack.minhoyoo.domain.card.Cards;
@@ -11,8 +13,7 @@ public abstract class Finished extends Started{
 
 	@Override
 	public State draw(Card card) {
-		// TODO
-		return this;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -27,7 +28,6 @@ public abstract class Finished extends Started{
 
 	@Override
 	public Money profit(Money money) {
-		// TODO
 		return money.multiply(earningRate());
 	}
 

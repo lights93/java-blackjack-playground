@@ -6,7 +6,6 @@ import blackjack.minhoyoo.domain.state.StateFactory;
 
 public class Dealer extends CardOwner {
 	public Dealer(Cards cards) {
-		// TODO
 		super(StateFactory.createDealerState(cards), Money.ZERO);
 	}
 }

@@ -15,13 +15,13 @@ public class DealerHit extends Running{
 			return new Bust(cards);
 		}
 		if(cards().isDealerEnd()) {
-			return new Stay(cards);
+			return new DealerEnd(cards);
 		}
 		return new DealerHit(cards);
 	}
 
 	@Override
 	public State stay() {
-		return null;
+		return new DealerEnd(cards);
 	}
 }
